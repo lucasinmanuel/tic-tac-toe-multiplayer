@@ -1,0 +1,67 @@
+body {
+    background-color: var(--primary-bg);
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 3%;
+}
+
+main .container {
+    min-height: 100vh;
+    padding: 3% 3% calc(3% - 32px) 3%;
+    display: flex;
+    align-items: center;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: var(--black);
+    opacity: 1;
+}
+
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: var(--black);
+    opacity: 1;
+}
+
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: var(--black);
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--black);
+    opacity: 1;
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--black);
+    opacity: 1;
+}
+
+::placeholder {
+    /* Most modern browsers support this now. */
+    color: var(--black);
+    opacity: 1;
+}
+
+/* Hide Arrows From Input Number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide Arrows From Input Number */
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
