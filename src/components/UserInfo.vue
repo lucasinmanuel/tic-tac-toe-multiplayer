@@ -64,7 +64,7 @@ export default {
 <style>
 .user-info {
     width: 45%;
-    color: var(--black);
+    color: var(--gray);
     background-color: var(--second-bg);
     border-radius: 8px;
     padding: 20px;
@@ -129,7 +129,7 @@ export default {
     justify-content: center;
     gap: 10px;
     font-size: 28px;
-    color: var(--black);
+    color: var(--gray);
     font-weight: bold;
     border: 2px solid var(--black);
     border-radius: 8px;

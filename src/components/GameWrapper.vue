@@ -227,7 +227,7 @@ thead th div {
 }
 
 thead th h2 {
-    color: var(--black);
+    color: var(--gray);
 }
 
 thead th img {

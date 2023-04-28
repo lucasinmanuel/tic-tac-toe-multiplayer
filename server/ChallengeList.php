@@ -131,7 +131,7 @@ class ChallengeList
             }
         }
 
-        if (sizeof($your_choices) >= 5 && sizeof($opponent_choices) >= 4) {
+        if (sizeof($your_choices) >= 5 && sizeof($opponent_choices) >= 4 && $result != "victories") {
             $result = "ties";
         }
 
