@@ -11,8 +11,6 @@ final class ConfigService
     public function __construct()
     {
         $this->limit = 12;
-        /* end - limit */
-        /* page * limit */
         $this->challengeList = new ChallengeList();
     }
     public function resettingPages($handleData, $your_id, $type): array

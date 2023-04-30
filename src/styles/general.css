@@ -11,9 +11,10 @@ body {
 
 main .container {
     min-height: 100vh;
-    padding: 3% 3% calc(3% - 32px) 3%;
+    padding: 1%;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 ::-webkit-input-placeholder {

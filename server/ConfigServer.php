@@ -6,10 +6,7 @@ use Exception;
 use SplObjectStorage;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use Config\ChallengeList;
 use Config\ConfigService;
-
-// use MongoDB\Client;
 
 final class ConfigServer implements MessageComponentInterface
 {

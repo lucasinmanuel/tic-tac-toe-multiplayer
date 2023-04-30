@@ -7,22 +7,22 @@
         </div>
         <div id="user-status" v-if="json">
             <h1><b>Your Id: </b>{{ json.data.your_id }}</h1>
-            <button v-on:click="emitReflesh()" type="button">Refresh</button>
+            <button v-on:click="emitRefreshPlayerList()" type="button">Refresh</button>
         </div>
         <div id="opponent-list">
             <ul v-if="json">
                 <template v-for="opponent_id in json.data.opponent_list">
                     <li>
                         <b>{{ opponent_id }}</b>
-                        <button class="challenge-btn" v-on:click="emitChallenge(opponent_id)"
+                        <button class="challenge-btn" v-on:click="emitChallengeInvite(opponent_id)"
                             type="button">Challenge</button>
                     </li>
                 </template>
             </ul>
             <div id="info-page">
-                <span v-on:click="emitNavigation('previous')" id="previous-arrow">&#10094; Previous</span>
+                <span v-on:click="emitPageNavigation('previous')" id="previous-arrow">&#10094; Previous</span>
                 <span v-if="json">{{ json.data.page }} / {{ json.data.number_pages }}</span>
-                <span v-on:click="emitNavigation('next')" id="next-arrow">Next &#10095;</span>
+                <span v-on:click="emitPageNavigation('next')" id="next-arrow">Next &#10095;</span>
             </div>
         </div>
     </div>
@@ -43,17 +43,17 @@ export default {
         }
     },
     methods: {
-        emitReflesh() {
-            this.$emit("emitReflesh");
+        emitRefreshPlayerList() {
+            this.$emit("emitRefreshPlayerList");
         },
-        emitChallenge(opponent_id) {
-            this.$emit("emitChallenge", opponent_id);
+        emitChallengeInvite(opponent_id) {
+            this.$emit("emitChallengeInvite", opponent_id);
         },
         emitSearch() {
             this.$emit("emitSearch", this.searchValue);
         },
-        emitNavigation(direction) {
-            this.$emit("emitNavigation", {
+        emitPageNavigation(direction) {
+            this.$emit("emitPageNavigation", {
                 direction: direction, value: this.searchValue
             });
         }

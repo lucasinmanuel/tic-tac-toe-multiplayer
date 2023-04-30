@@ -2,12 +2,11 @@
   <header></header>
   <main>
     <div class="container">
-      <UserInfo @emitReflesh="reflesh" @emitChallenge="challenge" @emitSearch="search" @emitNavigation="navigation"
-        :json="player_list" />
+      <UserInfo @emitRefreshPlayerList="refreshPlayerList" @emitChallengeInvite="challengeInvite" @emitSearch="search"
+        @emitPageNavigation="pageNavigation" :json="player_list" />
       <GameWrapper @emitChoice="choice" @emitRematch="rematch" :json="game" />
     </div>
   </main>
-  <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 
 <script>
@@ -27,10 +26,10 @@ export default {
     }
   },
   methods: {
-    reflesh() {
+    refreshPlayerList() {
       this.socket.send(JSON.stringify({ type: "refresh" }));
     },
-    challenge(opponent_id) {
+    challengeInvite(opponent_id) {
       //ENVIA O CONVITE PARA O PARTIDA
       this.socket.send(JSON.stringify({
         type: "challenge-invite",
@@ -49,7 +48,7 @@ export default {
     search(value) {
       this.socket.send(JSON.stringify({ type: "search-value", value: value }))
     },
-    navigation(json) {
+    pageNavigation(json) {
       if (this.player_list.type == "receive-search" || this.player_list.type == "page-navigation-search") {
         this.socket.send(JSON.stringify({ type: "page-navigation-search", direction: json.direction, value: json.value, page: this.player_list.data.page }))
       } else {
@@ -60,28 +59,31 @@ export default {
   mounted() {
     this.socket.addEventListener("message", (event) => {
       const json = JSON.parse(event.data);
-      if (json.type == "challenge-receive") {
+      if (['init', 'refresh', 'receive-search', 'page-navigation', 'page-navigation-search'].includes(json.type)) {
+        //ATUALIZA A LISTA DE JOGADORES
+        this.player_list = json;
+      } else if (['challenge-receive'].includes(json.type)) {
         //RECEBE O DESAFIO DE ALGUM JOGADOR, CASO SEJA ACEITO A RESPOTA SERÁ ENVIADA PARA O BACK-END
-        let bool = confirm("Você foi desafiado pelo jogador " + json.sender_id + ". Aceita?")
+        let bool = confirm('Você foi desafiado pelo jogador ' + json.sender_id + '. Aceita?')
         if (bool) {
-          json.type = "challenge-accepted";
+          json.type = 'challenge-accepted';
           this.socket.send(JSON.stringify(json));
         }
-      } else if (json.type == "rematch-receive") {
+      } else if (['rematch-receive'].includes(json.type)) {
         //RECEBE A REVANCHE DE ALGUM JOGADOR, CASO SEJA ACEITO A RESPOTA SERÁ ENVIADA PARA O BACK-END
-        let bool = confirm("Você foi desafiado para uma revanche. Aceita?")
+        let bool = confirm('Você foi desafiado para uma revanche. Aceita?')
         if (bool) {
-          json.type = "rematch-accepted";
+          json.type = 'rematch-accepted';
           this.socket.send(JSON.stringify(json));
         } else {
           this.game = null;
         }
-      } else if (["challenge-started", "rematch-started", "challenge-update"].includes(json.type)) {
-        //RECEBE AS INFORMAÇÕES DA PARTIDA QUE VEM DO BACK-END
-        //ATUALIZA AS ESCOLHAS FEITAS NO DESAFIO EM TEMPO REAL
+      } else if (['challenge-started', 'rematch-started', 'challenge-update'].includes(json.type)) {
+        //ATUALIZA O GAME
+        //DESCOBRE QUEM É VOCÊ E O OPONENTE
         this.game = {}
         for (let i in json) {
-          if (typeof (json[i]) == "object") {
+          if (typeof (json[i]) == 'object') {
             if (json[i].id == this.player_list.data.your_id) {
               this.game["you"] = json[i]
             } else {
@@ -94,11 +96,8 @@ export default {
         if (json.type == "rematch-started") {
           alert("Desafio iniciado!")
         }
-      } else if (["init", "refresh", "receive-search", "page-navigation", "page-navigation-search"].includes(json.type)) {
-        //CASO O SITE SEJA ABERTO OU UM REFLESH ACONTEÇA O ESTADO DO this.player_list É ATUALIZADO
-        this.player_list = json;
-      } else if (json.type == "opponent-disconnected") {
-        alert("O seu oponente desconectou!")
+      } else if (json.type == 'opponent-disconnected') {
+        alert('O seu oponente desconectou!')
         this.game = null;
       }
     });
@@ -112,6 +111,10 @@ export default {
     flex-direction: column;
   }
 
+  main .container {
+    padding: 21px 3% 0 3%;
+  }
+
   .user-info {
     width: 60%;
   }
@@ -122,10 +125,6 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
-  main .container {
-    flex-direction: column;
-  }
-
   .user-info {
     width: 100%;
   }
