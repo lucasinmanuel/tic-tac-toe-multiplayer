@@ -145,7 +145,7 @@ export default {
     },
     watch: {
         json(newJson) {
-            if (this.json == null || this.json.type == "rematch-started") {
+            if (this.json == null || ["rematch-started", "challenge-started"].includes(this.json.type)) {
                 //RESETANDO AS CÉLULAS
                 this.resetcells();
             } else {

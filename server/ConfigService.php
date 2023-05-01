@@ -47,7 +47,7 @@ final class ConfigService
         }
         $end = $page * $this->limit;
         $start = $end - $this->limit;
-        $filtered = array_slice($handleData["data"]["opponent_list"], $start, $end);
+        $filtered = array_slice($handleData["data"]["opponent_list"], $start, $this->limit);
 
         $handleData["type"] = $type;
         $handleData["data"]["your_id"] = $your_id;
